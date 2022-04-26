@@ -1,0 +1,71 @@
+--------------------------------------
+
+ENDPOINT: GET - /getGameScores?gameId=STRING
+
+RESPONSE:
+200 - OK
+[
+    {
+        "playerName": String,
+        "scores": [
+            {
+                "hole": Int,
+                "score": Int
+            }
+        ]
+    }
+]
+400 - Client error
+500 - Server error
+
+--------------------------------------
+
+ENDPOINT: GET - /getAllGames
+
+RESPONSE:
+200 - OK
+[
+    {
+        "gameId": String,
+        "gameName": String,
+        "created": Long
+    }
+]
+400 - Client error
+500 - Server error
+
+--------------------------------------
+
+ENDPOINT: POST - /createGame
+
+REQUEST:
+{
+    "gameName": String,
+    "players": [String]
+}
+
+
+RESPONSE:
+200 - OK
+400 - Client error
+500 - Server error
+
+--------------------------------------
+
+ENDPOINT: POST - /updateScore
+
+REQUEST:
+{
+    "gameId": String,
+    "playerName": String,
+    "score": Int,
+    "hole": Int
+}
+
+
+RESPONSE:
+200 - OK
+400 - Client error
+500 - Server error
+
+--------------------------------------
