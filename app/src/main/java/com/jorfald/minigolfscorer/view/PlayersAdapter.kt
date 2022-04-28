@@ -5,18 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jorfald.minigolfscorer.R
-import com.jorfald.minigolfscorer.model.dataClasses.Player
+import com.jorfald.minigolfscorer.model.dataClasses.PlayerScores
 
 @SuppressLint("NotifyDataSetChanged")
 class PlayersAdapter(
-    var dataSet: List<Player>,
-    var onClickCallBack: (Player, Int, Int) -> Unit
+    var dataSet: List<PlayerScores>,
+    var onClickCallBack: (PlayerScores, Int, Int) -> Unit
 ) : RecyclerView.Adapter<PlayersAdapter.PlayerViewHolder>() {
 
     inner class PlayerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -72,7 +71,7 @@ class PlayersAdapter(
 
     override fun getItemCount(): Int = dataSet.size
 
-    fun updateData(newList: List<Player>) {
+    fun updateData(newList: List<PlayerScores>) {
         dataSet = newList
         notifyDataSetChanged()
     }

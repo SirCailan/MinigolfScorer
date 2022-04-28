@@ -5,55 +5,55 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.jorfald.minigolfscorer.viewModel.GamesViewModel
 import com.jorfald.minigolfscorer.R
-import com.jorfald.minigolfscorer.model.dataClasses.Player
+import com.jorfald.minigolfscorer.model.dataClasses.Game
+import com.jorfald.minigolfscorer.viewModel.GamesViewModel
 
 class GameDetailsFragment : Fragment() {
-
-    val viewModel: GamesViewModel by activityViewModels()
-
-    //TODO: Create other view variables
+    private val viewModel: GamesViewModel by activityViewModels()
 
     lateinit var recyclerView: RecyclerView
     lateinit var customAdapter: PlayersAdapter
     lateinit var customLayoutManager: LinearLayoutManager
+    lateinit var loader: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        customAdapter = PlayersAdapter(listOf()) { _, _, _ ->
+
+        }
+
+        bindObservers()
+
         return inflater.inflate(R.layout.fragment_game_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Initiate views
-
-        // TODO: viewModel.fetchPlayersForSelectedGame() and fill recyclerView
+        loader = view.findViewById(R.id.details_loader)
         recyclerView = view.findViewById(R.id.game_details_recycler_view)
-        customAdapter = PlayersAdapter(
-            listOf(
-                Player(
-                    "Ole",
-                    listOf()
-                ),
-                Player(
-                    "Per",
-                    listOf()
-                )
-            )
-        ) { _, _, _ ->
 
-        }
         customLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = customLayoutManager
+
+        // TODO: viewModel.fetchPlayersForSelectedGame() and fill recyclerView
 
         recyclerView.adapter = customAdapter
-        recyclerView.layoutManager = customLayoutManager
+
+    }
+
+    private fun bindObservers() {
+        viewModel.playerScores.observe(viewLifecycleOwner) { scores ->
+            customAdapter.updateData(scores)
+            loader.visibility = View.GONE
+        }
     }
 }

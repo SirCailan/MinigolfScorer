@@ -3,28 +3,36 @@ package com.jorfald.minigolfscorer.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jorfald.minigolfscorer.model.dataClasses.Game
+import com.jorfald.minigolfscorer.model.dataClasses.PlayerScores
 import com.jorfald.minigolfscorer.model.repository.GamesRepository
-import com.jorfald.minigolfscorer.model.dataClasses.Player
 
 class GamesViewModel : ViewModel() {
 
-    private val gameRepository = GamesRepository()
+    private val gamesRepository = GamesRepository()
+    private lateinit var selectedGame: Game //Will be set by selectGame function.
 
     val allGames: MutableLiveData<List<Game>> = MutableLiveData()
-    val allPlayers: MutableLiveData<List<Player>> = MutableLiveData()
+    val playerScores: MutableLiveData<List<PlayerScores>> = MutableLiveData()
     val postScoreSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val createGameSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val errorMessage: MutableLiveData<String> = MutableLiveData()
-
-    var selectedGameId: String = ""
+    var fetchSuccess: MutableLiveData<Boolean> = MutableLiveData()
 
     fun fetchAllGames() {
-        //TODO: Call repository
-        //TODO: Update liveData
+        gamesRepository.getSavedGames { games ->
+            allGames.postValue(games)
+        }
+    }
+
+    fun selectGame(game: Game) {
+        selectedGame = game
+        fetchPlayersForSelectedGame()
     }
 
     fun fetchPlayersForSelectedGame() {
-        //TODO: Call repository
+        gamesRepository.fetchGameScores(selectedGame.gameId) { scores, responseCode ->
+            playerScores.postValue(scores)
+        }
         //TODO: Update liveData
 
     }

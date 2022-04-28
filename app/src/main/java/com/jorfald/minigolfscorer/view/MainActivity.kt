@@ -1,32 +1,38 @@
 package com.jorfald.minigolfscorer.view
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import androidx.navigation.Navigation
 import com.jorfald.minigolfscorer.R
-import com.jorfald.minigolfscorer.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+    var backPressTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onBackPressed() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val backStackEntryCount = navHostFragment?.childFragmentManager?.backStackEntryCount
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        if (backStackEntryCount != null && backStackEntryCount > 0) {
+            super.onBackPressed()
+        } else {
+            val backMessage =
+                Toast.makeText(this, "Trykk tilbake igjen for å lukke appen", Toast.LENGTH_LONG)
 
-        binding.fab.setOnClickListener { view ->
-            navController.navigate(R.id.action_FirstFragment_to_SecondFragment)
+            if (backPressTime + 2000 > System.currentTimeMillis()) {
+                backMessage.cancel()
+                super.onBackPressed()
+                return
+            } else {
+                backMessage.show()
+            }
+
+            backPressTime = System.currentTimeMillis()
         }
     }
 }

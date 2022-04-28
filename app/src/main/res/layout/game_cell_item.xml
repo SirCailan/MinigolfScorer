@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/game_cell_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/item_card">
 
     <!--TODO: Create labels for name and created time -->
 
+    <TextView
+        android:id="@+id/game_cell_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Minigolf Game Name" />
+
+    <TextView
+        android:id="@+id/game_cell_time_created"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/game_cell_name"
+        app:layout_constraintStart_toStartOf="@+id/game_cell_name"
+        app:layout_constraintTop_toBottomOf="@+id/game_cell_name"
+        tools:text="Time Created" />
+
+    <ImageView
+        android:id="@+id/game_cell_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:tooltipText="@string/game_cell_tooltip_active"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/game_cell_name"
+        app:layout_constraintStart_toStartOf="@+id/game_cell_name"
+        app:layout_constraintTop_toBottomOf="@+id/game_cell_time_created"
+        app:srcCompat="@drawable/ic_baseline_check_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

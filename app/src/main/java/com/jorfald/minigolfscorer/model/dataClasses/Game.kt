@@ -1,7 +1,12 @@
 package com.jorfald.minigolfscorer.model.dataClasses
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "games")
 data class Game(
-    val gameId: String,
+    @PrimaryKey val gameId: String,
     val gameName: String,
-    val created: Int
+    val created: Long,
+    val isActive: Boolean
 )

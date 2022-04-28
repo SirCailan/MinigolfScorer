@@ -2,7 +2,7 @@ package com.jorfald.minigolfscorer
 
 import android.app.Application
 
-class MinigolfScorerApplication : Application() {
+class MinigolfScorerApp : Application() {
     override fun onCreate() {
         super.onCreate()
 

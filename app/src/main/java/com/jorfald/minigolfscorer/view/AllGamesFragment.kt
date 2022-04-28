@@ -5,19 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jorfald.minigolfscorer.viewModel.GamesViewModel
 import com.jorfald.minigolfscorer.R
+import com.jorfald.minigolfscorer.model.dataClasses.Game
 
 class AllGamesFragment : Fragment() {
 
-    val viewModel: GamesViewModel by activityViewModels()
+    private val viewModel: GamesViewModel by viewModels()
 
     lateinit var recyclerView: RecyclerView
     lateinit var customAdapter: GamesAdapter
     lateinit var customLayoutManager: LinearLayoutManager
+    lateinit var loader: ProgressBar
 
     // TODO: Create view variables
 
@@ -25,18 +30,37 @@ class AllGamesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        customAdapter = GamesAdapter(listOf()) { game ->
+            viewModel.selectGame(game)
+            findNavController().navigate(AllGamesFragmentDirections.actionFirstFragmentToSecondFragment())
+        }
+        viewModel.fetchAllGames()
+        //Gets all saved games from database -> updates allGames livedata.
+
         return inflater.inflate(R.layout.fragment_all_games, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Initiate views
+        loader = view.findViewById(R.id.games_loader)
+
+        bindObservers()
+
+        recyclerView = view.findViewById(R.id.games_all_recyclerview)
+        customLayoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = customLayoutManager
+
+        recyclerView.adapter = customAdapter
 
         // TODO: viewModel.getAllGames() and fill recyclerView
     }
 
-    fun bindObservers() {
-        //TODO: Bind all necessary liveData observers
+    private fun bindObservers() {
+        viewModel.allGames.observe(viewLifecycleOwner) { games ->
+            customAdapter.updateData(games)
+            loader.visibility = View.GONE
+            //Hides the progress bar
+        }
     }
 }
