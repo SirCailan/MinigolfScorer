@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_createGameFragment"
+            app:destination="@id/createGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -30,4 +33,9 @@
             app:popUpTo="@id/SplashFragment"
             app:popUpToInclusive="true"/>
     </fragment>
+    <fragment
+        android:id="@+id/createGameFragment"
+        android:name="com.jorfald.minigolfscorer.view.CreateGameFragment"
+        android:label="fragment_create_game"
+        tools:layout="@layout/fragment_create_game" />
 </navigation>

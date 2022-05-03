@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/47476/OneDrive/Dokumenter/GitHub/MinigolfScorer/app/src/main/res/layout/activity_main.xml" value="0.3255208333333333" />
+        <entry key="..\:/Users/47476/OneDrive/Dokumenter/GitHub/MinigolfScorer/app/src/main/res/layout/fragment_all_games.xml" value="0.3255208333333333" />
+        <entry key="..\:/Users/47476/OneDrive/Dokumenter/GitHub/MinigolfScorer/app/src/main/res/layout/fragment_create_game.xml" value="0.3255208333333333" />
+        <entry key="..\:/Users/47476/OneDrive/Dokumenter/GitHub/MinigolfScorer/app/src/main/res/layout/fragment_game_details.xml" value="0.3255208333333333" />
         <entry key="..\:/Users/Andreas/Documents/GitHub/MinigolfScorer/app/src/main/res/drawable/game_card.xml" value="0.29" />
         <entry key="..\:/Users/Andreas/Documents/GitHub/MinigolfScorer/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.29" />
         <entry key="..\:/Users/Andreas/Documents/GitHub/MinigolfScorer/app/src/main/res/drawable/item_card.xml" value="0.29" />

@@ -11,18 +11,21 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jorfald.minigolfscorer.viewModel.GamesViewModel
 import com.jorfald.minigolfscorer.R
 import com.jorfald.minigolfscorer.model.dataClasses.Game
 
 class AllGamesFragment : Fragment() {
 
-    private val viewModel: GamesViewModel by viewModels()
+    private val viewModel: GamesViewModel by activityViewModels()
 
     lateinit var recyclerView: RecyclerView
     lateinit var customAdapter: GamesAdapter
     lateinit var customLayoutManager: LinearLayoutManager
     lateinit var loader: ProgressBar
+    lateinit var createButton: FloatingActionButton
+    lateinit var refreshButton: FloatingActionButton
 
     // TODO: Create view variables
 
@@ -44,8 +47,12 @@ class AllGamesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         loader = view.findViewById(R.id.games_loader)
+        createButton = view.findViewById(R.id.games_create_game_button)
+        refreshButton = view.findViewById(R.id.games_refresh_dataset_button)
 
         bindObservers()
+
+        bindButtons()
 
         recyclerView = view.findViewById(R.id.games_all_recyclerview)
         customLayoutManager = LinearLayoutManager(activity)
@@ -61,6 +68,16 @@ class AllGamesFragment : Fragment() {
             customAdapter.updateData(games)
             loader.visibility = View.GONE
             //Hides the progress bar
+        }
+    }
+
+    private fun bindButtons() {
+        createButton.setOnClickListener {
+            findNavController().navigate(AllGamesFragmentDirections.actionFirstFragmentToCreateGameFragment())
+        }
+
+        refreshButton.setOnClickListener {
+            viewModel.fetchAllGames()
         }
     }
 }

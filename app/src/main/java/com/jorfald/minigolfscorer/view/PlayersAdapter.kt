@@ -42,15 +42,15 @@ class PlayersAdapter(
         val player = dataSet[position]
 
         //TODO: Fill in data in views
-        holder.playerName.text = "Per\n100 slag"
+        holder.playerName.text = player.playerName
 
         holder.scoreContainer.removeAllViews()
         for (i in 1..18) {
             val holeTextView = TextView(holder.container.context)
 
-            //TODO: Get the correct score in the text
-            var holeText = "Hull $i\n"
-            holeText += "Slag: 0"
+            //Sets the correct score and hole
+            var holeText = "Hull $i"
+            holeText += "Slag: ${player.scores[i].score}"
 
             holeTextView.text = holeText
 

@@ -86,8 +86,30 @@ class GamesRepository {
         //TODO: Implement API-calls
     }
 
-    fun createNewGame(gameName: String, callback: (Boolean) -> Unit) {
-        //TODO: Implement API-calls
+    fun createNewGame(gameName: String, players: List<String>, callback: (Boolean) -> Unit) {
+        val url = BASE_URL + "createGame"
+
+        val postRequest: StringRequest = object : StringRequest(
+            Method.POST,
+            url,
+            { json ->
+                callback(true)
+            },
+            { error ->
+                callback(false)
+            }
+        ) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+
+                params["gameName"] = gameName
+                params["players"] = Klaxon().toJsonString(players)
+
+                return params
+            }
+        }
+
+        requestQueue.add(postRequest)
     }
 
     fun saveGames(games: List<Game>) {
@@ -99,7 +121,7 @@ class GamesRepository {
 
     fun getSavedGames(callback: (List<Game>) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            callback (gameDao.getAllGames())
+            callback(gameDao.getAllGames())
         }.start()
     }
 

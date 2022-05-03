@@ -15,8 +15,8 @@ class GamesViewModel : ViewModel() {
     val playerScores: MutableLiveData<List<PlayerScores>> = MutableLiveData()
     val postScoreSuccess: MutableLiveData<Boolean> = MutableLiveData()
     val createGameSuccess: MutableLiveData<Boolean> = MutableLiveData()
-    val errorMessage: MutableLiveData<String> = MutableLiveData()
-    var fetchSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    val responseMessage: MutableLiveData<String> = MutableLiveData()
+    val pleaseWait: MutableLiveData<Boolean> = MutableLiveData()
 
     fun fetchAllGames() {
         gamesRepository.getSavedGames { games ->
@@ -26,12 +26,13 @@ class GamesViewModel : ViewModel() {
 
     fun selectGame(game: Game) {
         selectedGame = game
-        fetchPlayersForSelectedGame()
     }
 
     fun fetchPlayersForSelectedGame() {
         gamesRepository.fetchGameScores(selectedGame.gameId) { scores, responseCode ->
             playerScores.postValue(scores)
+
+            responseMessage.postValue(responseCode.toString())
         }
         //TODO: Update liveData
 
@@ -43,8 +44,10 @@ class GamesViewModel : ViewModel() {
 
     }
 
-    fun createNewGame(gameName: String) {
-        //TODO: Call repository
+    fun createNewGame(gameName: String, players: List<String>) {
+        gamesRepository.createNewGame(gameName, players) {  success ->
+            createGameSuccess.postValue(success)
+        }
         //TODO: Update liveData
 
     }
